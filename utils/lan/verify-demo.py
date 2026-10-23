@@ -10,6 +10,7 @@ import urllib.request
 import uuid
 
 HERE = Path(__file__).resolve().parent
+MODEL_DIR = HERE / 'models/yolo11n-demo'
 credentials = json.loads((HERE / '.credentials.json').read_text(encoding='utf-8-sig'))
 base = credentials['url']
 cookies = http.cookiejar.CookieJar()
@@ -44,7 +45,7 @@ def upload_image(task_id):
         parts.append(f'--{boundary}\r\nContent-Disposition: form-data; name="{name}"\r\n\r\n{value}\r\n'.encode())
     parts.append((f'--{boundary}\r\nContent-Disposition: form-data; name="client_files[0]"; '
                   'filename="bus.jpg"\r\nContent-Type: image/jpeg\r\n\r\n').encode())
-    parts.append((HERE / 'models/bus.jpg').read_bytes())
+    parts.append((MODEL_DIR / 'samples/bus.jpg').read_bytes())
     parts.append(f'\r\n--{boundary}--\r\n'.encode())
     return request(f'/api/tasks/{task_id}/data', b''.join(parts),
                    content_type=f'multipart/form-data; boundary={boundary}')
@@ -62,7 +63,7 @@ if __name__ == '__main__':
     if state_path.exists():
         state = json.loads(state_path.read_text())
     else:
-        labels = json.loads((HERE / 'models/labels.json').read_text())
+        labels = json.loads((MODEL_DIR / 'labels.json').read_text())
         task = request('/api/tasks', {'name': 'YOLO11n deployment demo - bus',
                                      'labels': [{'name': name, 'type': 'rectangle'} for name in labels]})
         state = {'task_id': task['id']}

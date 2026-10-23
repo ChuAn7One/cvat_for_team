@@ -1,7 +1,8 @@
 /bin/
 /*.log
 /.credentials.json
-/models/
+/models/*
+!/models/README.zh-CN.md
 /docker-client/
 /.demo-state.json
 /verification.json

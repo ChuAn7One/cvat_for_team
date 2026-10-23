@@ -543,4 +543,6 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\utils\lan\open-firewall.ps
 | `utils/lan/cvat.ps1` | Start / Stop / Status / Logs / CreateAdmin |
 
 初期先用当前 YOLO11n 和小批次图片跑通团队流程，再按真实数据需要增加模型。
+新增模型按名称放入 `utils/lan/models/<模型名>/`，具体目录结构与部署命令见
+[模型文件管理与新增步骤](utils/lan/models/README.zh-CN.md)。仅复制权重不会自动出现在 CVAT 中，仍需部署。
 新增模型时先在独立测试任务中验证类别、坐标和保存结果，然后用于正式数据。

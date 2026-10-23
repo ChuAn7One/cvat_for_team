@@ -99,6 +99,10 @@ powershell -ExecutionPolicy Bypass -File .\utils\lan\open-firewall.ps1
 
 ## 5. 接入模型
 
+模型原始文件按名称分别放在 `utils/lan/models/<模型名>/`，
+现有示例位于 `utils/lan/models/yolo11n-demo/`。
+后续新增权重请按[模型目录与新增步骤](models/README.zh-CN.md)操作。
+
 详见 [自定义模型说明](../../serverless/custom-models/README.zh-CN.md)。
 先验证一个小 YOLO 模型，再验证一个 SAM 模型。6GB 显存按需部署，
 每个 GPU 函数只有一个 worker，但不同函数仍会同时占显存；这不是全局排队限制。
@@ -106,7 +110,7 @@ powershell -ExecutionPolicy Bypass -File .\utils\lan\open-firewall.ps1
 
 官方 YOLO11n 示例的部署入口是 `utils/lan/deploy-demo.sh`（Ubuntu / WSL 中运行）。
 它使用项目内的 Nuclio 1.16.3 工具和独立 Docker 客户端配置，避免 Windows 凭据助手兼容问题。
-项目内已下载权重、COCO 类别表和官方公交车图片。部署后运行：
+项目内已下载权重、COCO 类别表和官方公交车图片，分别位于 `models/yolo11n-demo/` 的对应子目录。部署后运行：
 
 ```powershell
 python utils/lan/verify-demo.py

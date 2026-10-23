@@ -23,6 +23,9 @@ SAM/SAM2/SAM3 的权重文件名要保留加载器识别信息，如 `sam_b.pt`�
 
 ## 准备和部署
 
+原始文件按模型名集中管理，目录结构和新增操作见[本地模型管理说明](../../utils/lan/models/README.zh-CN.md)。
+下文使用仓库内独立模型目录；权重也可以放在其它位置并传入其真实路径。
+
 以下在 **Ubuntu / WSL 终端**执行。先按 [局域网说明](../../utils/lan/README.zh-CN.md)启动 CVAT。
 确认 Ubuntu 中 `docker info` 可用。安装与本仓库 Nuclio dashboard 一致的 **nuctl 1.16.3**，
 参考 [Nuclio release](https://github.com/nuclio/nuclio/releases/tag/1.16.3)
@@ -38,7 +41,8 @@ SAM/SAM2/SAM3 的权重文件名要保留加载器识别信息，如 `sam_b.pt`�
 cd /mnt/e/workspace/annotation/cvat
 python3 serverless/custom-models/prepare.py \
   --name my-yolo11-seg --engine ultralytics --task segment \
-  --weights /mnt/e/models/best.pt --labels /mnt/e/models/labels.json --gpu
+  --weights utils/lan/models/my-yolo11-seg/weights/best.pt \
+  --labels utils/lan/models/my-yolo11-seg/labels.json --gpu
 ```
 
 脚本只生成部署目录并复制权重，不会下载依赖或启动模型。
@@ -58,7 +62,7 @@ YOLOv8/11/12/26 检测用 `--task detect`；分割用 `--task segment`。
 ```bash
 python3 serverless/custom-models/prepare.py \
   --name my-sam2 --engine sam --task interactive \
-  --weights /mnt/e/models/sam2.1_b.pt --gpu
+  --weights utils/lan/models/my-sam2/weights/sam2.1_b.pt --gpu
 ```
 
 CPU 运行省略 `--gpu`。每个函数一个 worker；多个 GPU 函数仍会各自常驻显存。

@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 root = Path(__file__).resolve().parents[2]
-models = root / 'utils/lan/models'
+models = root / 'utils/lan/models/yolo11n-demo'
 text = (models / 'coco.yaml').read_text(encoding='utf-8')
 names = {}
 for match in re.finditer(r'^  (\d+):\s*(.+?)\s*$', text, re.MULTILINE):
@@ -22,5 +22,5 @@ if target.exists():
 subprocess.run([
     sys.executable, str(root / 'serverless/custom-models/prepare.py'),
     '--name', 'yolo11n-demo', '--engine', 'ultralytics', '--task', 'detect',
-    '--weights', str(models / 'yolo11n.pt'), '--labels', str(labels), '--gpu',
+    '--weights', str(models / 'weights/yolo11n.pt'), '--labels', str(labels), '--gpu',
 ], check=True)
