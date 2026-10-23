@@ -1,0 +1,8 @@
+/bin/
+/*.log
+/.credentials.json
+/models/
+/docker-client/
+/.demo-state.json
+/verification.json
+/.team-state.json

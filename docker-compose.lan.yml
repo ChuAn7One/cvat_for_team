@@ -1,0 +1,5 @@
+# Include AFTER the base and serverless compose files.
+services:
+  nuclio:
+    ports:
+      - '127.0.0.1:8070:8070'
