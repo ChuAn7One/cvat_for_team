@@ -87,6 +87,53 @@ class ProtocolTests(unittest.TestCase):
                 if task == 'segment':
                     declared = json.loads(function['metadata']['annotations']['spec'])
                     self.assertEqual(declared[0]['type'], 'mask')
+                elif task == 'interactive':
+                    self.assertEqual(function['metadata']['annotations']['min_pos_points'], '0')
+
+    def test_sam_prompt_protocol_and_original_image_masks(self):
+        class Mask:
+            shape = (2, 3)
+
+            def __gt__(self, threshold):
+                return self
+
+            def tolist(self):
+                return [[0, 0, 0], [0, 1, 1]]
+
+        class Masks:
+            @property
+            def data(self):
+                return self
+
+            def cpu(self):
+                return self
+
+            def numpy(self):
+                return [Mask()]
+
+        class Result:
+            masks = Masks()
+
+        class Predictor:
+            def predict(self, **kwargs):
+                self.last_prompt = kwargs
+                return [Result()]
+
+        class Image:
+            height, width = 2, 3
+
+        engine = Engine.__new__(Engine)
+        engine.device = 'cpu'
+        engine.model = Predictor()
+        self.assertEqual(engine._sam(Image(), {}), {'shapes': []})
+        with self.assertRaises(ValueError):
+            engine._sam(Image(), {'neg_points': [[0, 0]]})
+        result = engine._sam(Image(), {'pos_points': [[2, 1]], 'neg_points': [[0, 0]]})
+        self.assertEqual(engine.model.last_prompt['points'], [[[2, 1], [0, 0]]])
+        self.assertEqual(engine.model.last_prompt['labels'], [[1, 0]])
+        self.assertEqual(result['shapes'][0]['points'], [0, 2, 1, 1, 2, 1])
+        engine._sam(Image(), {'obj_bbox': [[0, 0], [2, 1]]})
+        self.assertEqual(engine.model.last_prompt['bboxes'], [[0, 0, 2, 1]])
 
     def test_invalid_engine_task_rejected_before_writes(self):
         args = prepare.parser().parse_args(['--name', 'bad', '--engine', 'sam',

@@ -11,6 +11,15 @@ utils/lan/models/
 │   ├── labels.json
 │   ├── coco.yaml
 │   └── samples/bus.jpg
+├── sam-vit-b/                    # 已部署，原版 SAM，CPU
+│   ├── weights/sam_b.pt
+│   └── source.json
+├── mobile-sam/                   # 已部署，轻量 SAM，GPU
+│   ├── weights/mobile_sam.pt
+│   └── source.json
+├── sam2-1-tiny/                  # 已部署，SAM2.1 Tiny，GPU
+│   ├── weights/sam2.1_t.pt
+│   └── source.json
 ├── factory-yolo11-det-v1/         # 自己训练的检测模型（示意）
 │   ├── weights/best.pt
 │   ├── labels.json
@@ -24,7 +33,8 @@ utils/lan/models/
     └── samples/test.jpg
 ```
 
-目前实际存在的模型是 `yolo11n-demo`；其余目录按需创建，不会自动下载模型。
+目前实际存在的模型是 `yolo11n-demo`、`sam-vit-b`、`mobile-sam`、`sam2-1-tiny`；
+其余目录是命名示例，按需创建。三款 SAM 的使用和部署见 [SAM 使用说明](../SAM使用说明.md)。
 `labels.json` 是类别名称数组，例如 `["person", "car"]`，顺序必须与训练类别 ID 一致。
 SAM 不需要类别表，权重文件名应保留加载器需要的命名；YOLO 权重可以叫 `best.pt`。
 可另存一份模型说明，记录训练版本、用途和类别定义。

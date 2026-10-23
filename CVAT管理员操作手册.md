@@ -63,10 +63,12 @@
 | YOLO11n 检测、生成矩形框 | 已部署并实测通过 |
 | 其它 YOLOv5 / v8 / 11 / 12 / 26 自定义检测权重 | 已准备适配入口，具体权重需单独部署验证 |
 | YOLO 实例分割 | 已准备适配入口，尚未做真实分割验收 |
-| SAM / SAM2 / SAM3 点击、框提示分割 | 已准备适配入口，尚未部署验收 |
+| SAM ViT-B / MobileSAM / SAM2.1 Tiny 点击、框提示分割 | 已部署，API 与掩膜保存验收通过 |
+| 其它 SAM / SAM2 / SAM3 权重 | 已准备适配入口，具体权重需单独部署验证 |
 | SAM3 文本提示、SAM 系列视频记忆跟踪 | 当前适配代码尚未接入 |
 
-网页里目前应能看到的是 `yolo11n-demo`。其它模型不会因为有适配代码就自动出现在列表中。
+网页里目前应能看到 `yolo11n-demo`、`sam-vit-b`、`mobile-sam`、`sam2-1-tiny`。
+其它模型不会因为有适配代码就自动出现在列表中。
 
 ## 三、第一次登录与管理员账号
 
@@ -284,6 +286,15 @@ Prompting 页签用于 SAM 等交互分割模型，当前部署的 YOLO 检测�
 上传图片后不会自动开始模型推理，需要主动点击 Annotate。
 
 参考：[编辑器中的 AI assistance](https://docs.cvat.ai/docs/annotation/auto-annotation/ai-tools/)。
+
+### 7.7 使用 SAM / SAM2 做交互分割
+
+进入 Job → 魔法棒 **AI assistance** → **Prompting**，选择 `sam2-1-tiny` 和目标 Label，
+点击 **Add visual prompts**。左键在物体内部点选，右键添加排除区域的负点；
+满意后点击 **Done** 或按 **N**，确认 Objects 增加，再按 Ctrl+S 保存。
+也可开启 **Start with a bounding box**，使用框提示。
+
+三款模型的选择、测试任务和重新部署命令见 [SAM 使用说明](utils/lan/SAM使用说明.md)。
 
 ## 八、分配 Job，让成员开始工作
 

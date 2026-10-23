@@ -80,7 +80,9 @@ class Engine:
         if data.get('text_prompts'):
             raise ValueError('This adapter supports point/box prompts; text prompts need a separate SAM3 predictor')
         if not positive and box is None:
-            raise ValueError('Provide a positive point or a bounding box')
+            if negative:
+                raise ValueError('Provide a positive point or a bounding box before negative clicks')
+            return {'shapes': []}
         prompts = {}
         if positive or negative:
             # Nested points represent ONE object with positive/negative clicks.

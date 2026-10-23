@@ -8,6 +8,7 @@
 - Docker Desktop 安装在 `%LOCALAPPDATA%\Programs\DockerDesktop`，启动脚本会自动查找。
 - CVAT v2.80.0 和 Nuclio 已启动，网页与 API 验证通过，容器内 GPU 可见。
 - 已创建管理员和“标注团队”组织，官方 YOLO11n 已部署，使用 GPU 推理。
+- 已部署 SAM ViT-B（CPU）、MobileSAM（GPU）、SAM2.1 Tiny（GPU），交互分割 API 与掩膜保存验收通过。
 - 公交车示例任务 ID 为 1：实际调用模型、保存 5 个检测框、重新读取核对均已通过。
 - 验收记录见 `verification.json`。其它电脑的浏览器访问尚需从对应设备确认。
 
@@ -98,6 +99,8 @@ powershell -ExecutionPolicy Bypass -File .\utils\lan\open-firewall.ps1
 同一张图不要让多人同时编辑。多人共用同一服务，任务访问权限仍受组织与角色控制。
 
 ## 5. 接入模型
+
+三款 SAM 预置模型已经可用，网页操作和重新部署见 [SAM 使用说明](SAM使用说明.md)。
 
 模型原始文件按名称分别放在 `utils/lan/models/<模型名>/`，
 现有示例位于 `utils/lan/models/yolo11n-demo/`。

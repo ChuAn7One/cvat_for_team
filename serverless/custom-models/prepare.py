@@ -41,7 +41,7 @@ def prepare(args):
                                        'type': 'mask' if args.task == 'segment' else 'rectangle'}
                                       for i, name in enumerate(names)], ensure_ascii=False)}
     if args.engine == 'sam':
-        annotations.update(version='2', min_pos_points='1', min_neg_points='0',
+        annotations.update(version='2', min_pos_points='0', min_neg_points='0',
                            startswith_box_optional='true',
                            help_message='Positive/negative clicks or box to segment one object')
     # Pin a CUDA build which retains support for the host's Turing GPU (sm_75).
