@@ -490,6 +490,8 @@ $cvatDocker = Join-Path $env:LOCALAPPDATA 'Programs\DockerDesktop\resources\bin\
 | 能看已有框，绘制时只有宽高读数，Objects 不增加 | 首先确认浏览器类型 | Safari/WebKit 不受支持；换桌面版 Chrome/Edge，用同一账号和同一 Job 测试 |
 | 成员进入团队却看不到工作 | Job 是否指派给该成员 | 在 Task 的 Jobs 列表检查 Assignee，成员优先从 Jobs 进入 |
 | 自动标注列表没有模型 | 模型部署状态、Nuclio 是否运行 | 先看 Models，再检查 Nuclio 和独立模型容器 |
+| 重启后任务列表为空 | 当前是否位于个人工作区 | 右上角切换到“标注团队”，再进入 Tasks；管理员列表也按工作区筛选 |
+| 模型报 `host.docker.internal:<端口>` 连接失败 | 是否仍使用旧版后端镜像 | 运行 `cvat.ps1 Start` 构建 LAN 后端补丁；WSL 中执行 `python3 utils/lan/check-models.py` 只读验收 |
 | 有模型却没有生成框 | 类别映射、阈值、图片内容 | 先用公交车示例检查；再核对自有数据是否属于模型支持类别 |
 | 任务里出现重复框 | 是否重复执行了预标注 | 先备份，再清理重复结果；协调 AI 与人工处理顺序 |
 | 导出后只有标签，没有图片 | Save images 是否开启 | 重新按需要导出，或与保留的原图一起交付 |

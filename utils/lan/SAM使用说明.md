@@ -67,6 +67,14 @@ python3 utils/lan/verify-sam.py --models sam2-1-tiny
 新电脑的任务 ID 可能不同，以脚本输出为准。
 
 已部署的模型会随 Docker 容器重启恢复，无需每次开机重新下载和部署。
+当前 LAN 后端通过模型容器名连接内部 `8080` 端口，不依赖重启后可能变化的宿主机端口。
+若从旧配置升级后仍出现 `host.docker.internal:<旧端口>` 连接错误，在 PowerShell 执行一次：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\utils\lan\cvat.ps1 Start
+```
+
+之后可在 WSL 执行 `python3 utils/lan/check-models.py`，只检查调用，不改任务标注。
 若显存不足，先减少同时调用的人数或停止闲置模型容器，不要再一次性添加大号 GPU 模型。
 
 来源：[SAM](https://docs.ultralytics.com/models/sam/)、

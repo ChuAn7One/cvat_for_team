@@ -51,7 +51,11 @@ powershell -ExecutionPolicy Bypass -File .\utils\lan\cvat.ps1 Start
 首次运行会下载较大的容器镜像。脚本组合 `utils/lan` 中保存的 v2.80.0 官方发布配置、
 对应 serverless 配置与根目录的局域网配置，并固定 `.env` 的 `CVAT_VERSION=v2.80.0`。
 已核对下载的官方配置与当前源码配置，差异仅为默认镜像标签。
-运行官方镜像，不会把本机源码修改自动打包进容器；如修改 CVAT 前后端需单独构建。
+网页和大部分后台服务使用官方镜像。`cvat_server` 与 `cvat_worker_annotation` 使用
+基于官方镜像构建的 `cvat/server-lan:v2.80.0`：只将模型调用地址改为同一 Docker 网络内的
+`nuclio-<namespace>-<模型名>:8080`，避免重启后宿主机随机端口变化造成连接失败或模型错配。
+`Start` 会构建该小补丁并保留构建缓存，不会自动打包其它本机前后端源码修改。
+所有模型必须与 CVAT 一样加入 `cvat_cvat` 网络；本项目生成器已配置该网络。
 `.env` 已写入 `CVAT_HOST=192.168.110.92`，换 Wi-Fi 或地址变化后修改它并重新执行 Start。
 如果终端已有 `CVAT_HOST` 环境变量，它会优先于 `.env`，请保持一致。
 
@@ -60,6 +64,10 @@ powershell -ExecutionPolicy Bypass -File .\utils\lan\cvat.ps1 Start
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\utils\lan\cvat.ps1 Status
 ```
+
+已部署示例模型时，可在 WSL 中执行 `python3 utils/lan/check-models.py`，
+通过 CVAT API 检查 YOLO 和三款 SAM，且不保存或替换标注。
+这项检查需要本机管理员凭据与示例任务状态文件。
 
 管理员 `admin` 已创建，随机密码保存在 `utils/lan/.credentials.json`，文件权限仅授予当前用户。
 不要把凭据文件发给标注成员；让成员使用独立账号。

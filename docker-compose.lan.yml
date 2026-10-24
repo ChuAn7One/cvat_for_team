@@ -1,5 +1,19 @@
 # Include AFTER the base and serverless compose files.
+x-lan-backend: &lan-backend
+  image: cvat/server-lan:${CVAT_VERSION:-v2.80.0}
+  build:
+    context: .
+    dockerfile: utils/lan/Dockerfile.server
+    args:
+      CVAT_VERSION: ${CVAT_VERSION:-v2.80.0}
+
 services:
+  cvat_server:
+    <<: *lan-backend
+
+  cvat_worker_annotation:
+    <<: *lan-backend
+
   nuclio:
     ports:
       - '127.0.0.1:8070:8070'

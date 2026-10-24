@@ -26,7 +26,7 @@ try {
     & $dockerExe @composeArgs config --quiet
     if ($LASTEXITCODE -ne 0) { throw 'Invalid Docker Compose configuration.' }
     switch ($Action) {
-        'Start' { & $dockerExe @composeArgs up -d }
+        'Start' { & $dockerExe @composeArgs up -d --build }
         'Stop' { & $dockerExe @composeArgs stop }
         'Status' { & $dockerExe @composeArgs ps }
         'Logs' { & $dockerExe @composeArgs logs --tail 100 cvat_server nuclio traefik }

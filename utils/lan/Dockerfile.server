@@ -1,0 +1,7 @@
+ARG CVAT_VERSION=v2.80.0
+FROM cvat/server:${CVAT_VERSION}
+
+USER root
+COPY utils/lan/patch-nuclio-network.py /opt/cvat-lan/patch-nuclio-network.py
+RUN /opt/venv/bin/python /opt/cvat-lan/patch-nuclio-network.py
+USER django
